@@ -185,7 +185,7 @@ public:
 		
 		daoShader.setupShaderFromSource( GL_VERTEX_SHADER, vert );
 		daoShader.setupShaderFromSource( GL_FRAGMENT_SHADER, frag );
-		if(!daoShader.linkProgram()) cout<<"AW Mannn... THE SHADER DIDN'T COMPILE."<<endl;
+		if(!daoShader.linkProgram()) cout<<"SSAO SHADER DIDN'T COMPILE."<<endl;
 		
 		daoShader.begin();
 		daoShader.setUniform3fv("samples", halfSphereSamps, 23*3);
@@ -223,7 +223,7 @@ public:
 		
 		deferredShader.setupShaderFromSource( GL_VERTEX_SHADER, vert );
 		deferredShader.setupShaderFromSource( GL_FRAGMENT_SHADER, frag );
-		if(!deferredShader.linkProgram()) cout<<"AW Mannn... THE SHADER DIDN'T COMPILE."<<endl;
+		if(!deferredShader.linkProgram()) cout<<"THE SSAO.deferredShader SHADER DIDN'T COMPILE."<<endl;
 		
 		setClipPlanes( nearClip, farClip );
 	}
