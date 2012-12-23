@@ -8,8 +8,8 @@ void testApp::setup(){
     }
     
     ssao.setup( ofGetWidth(), ofGetHeight(), GL_RGBA16F );
-    ssao.setRadius( 70 );
-    ssao.setMaxThreshold( .05 );
+    ssao.setRadius( 100 );
+    ssao.setMaxThreshold( .1 );
     ssao.setMinThreshold( .01 );
 }
 
