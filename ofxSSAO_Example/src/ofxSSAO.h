@@ -227,40 +227,18 @@ public:
 		
 		setClipPlanes( nearClip, farClip );
 	}
-	
-	
-	void gauss1D( vector <float>& k, int numSamples ){
-		k.resize( numSamples );
-		float sum = 0;
-		int edge = floor( float( numSamples/2 ));
-		for(int i=-edge; i<=edge; i++){
-			k[i+edge] = pow(sqrt(2.*PI), -(float(i*i)/4.) );
-			sum += k[i+edge];
-		}
-		
-		for(int i=0; i<k.size();i++)	k[i] /= sum;
-	}
-	
-	void makeOffsets( vector <float>& s, int numSamples ){
-		s.resize( numSamples );
-		int half = floor( numSamples/2 );
-		for(int i=0; i<numSamples; i++){
-			s[i] = float(-half + i)/float(half);
-		}
-	}
-	
+    
+    
+    
+    //private:
 	ofShader daoShader, deferredShader, depthBlurShader;
 	int width, height;
 	float nearClip, farClip;
 	ofFbo deferredPass;
 	
-	ofFbo fbo1, fbo2;
+	ofFbo fbo1;
 	ofFbo* fboOne;
-
-	vector <float> depthBlurSamples;
-	vector <float> depthBlurWeights;
 	
-    //private:
 	float weight, radius, maxThreshold, minThreshold;
 	
 };
