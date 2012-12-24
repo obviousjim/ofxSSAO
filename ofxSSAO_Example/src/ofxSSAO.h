@@ -156,8 +156,7 @@ public:
 			
 		frag += "void main(void)\n";
 		frag += "{\n";
-        frag += "vec4 xyzd = texture2DRect( depthtex, gl_TexCoord[0].st );\n";
-		frag += "float depth = xyzd.w;//texture2DRect( depthtex, gl_TexCoord[0].st ).w;\n";
+		frag += "float depth = texture2DRect( depthtex, gl_TexCoord[0].st ).x;\n";
 		frag += "if( depth == 0. ){	gl_FragColor = vec4(1.); return;}\n";
 		
 		frag += "float delta, mx, mn;\n";
@@ -174,7 +173,7 @@ public:
 		frag += "	rnd = rand( gl_FragCoord.xy+randSeed+vec2(i*i));\n";
 		frag += "	ray = samples[i].zxy * rad * rnd;\n";
 //		frag += "	ray = reflect( -samples[i], xyzd.xyz) * rad * rnd;\n";
-		frag += "	delta = ( depth - mn - texture2DRect( depthtex, gl_TexCoord[0].st + ray.xy ).w);\n";
+		frag += "	delta = ( depth - mn - texture2DRect( depthtex, gl_TexCoord[0].st + ray.xy ).x);\n";
 		frag += "	ao += min( 1., ( delta > 0. ) ? delta/max( delta, mx) : (mx - delta)/mx );\n";
 		frag += "}\n";
 		
@@ -218,7 +217,7 @@ public:
 		frag += "varying vec3 norm;\n";
 		frag += "void main(void)\n";
 		frag += "{\n";
-		frag += "gl_FragColor = vec4( norm, getDepth(  gl_FragCoord.z ) );\n";
+		frag += "gl_FragColor = vec4( vec3( getDepth(  gl_FragCoord.z ) ), 1. );\n";
 		frag += "}\n";
 		
 		deferredShader.setupShaderFromSource( GL_VERTEX_SHADER, vert );
