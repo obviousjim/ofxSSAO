@@ -3,14 +3,18 @@
 //--------------------------------------------------------------
 void testApp::setup(){
     centers.resize( 100 );
+    colors.resize( 100 );
     for (int i=0; i<centers.size(); i++) {
         centers[i].set( ofRandom(-150, 150), ofRandom(-150, 150), ofRandom(-150, 150) );
+        colors[i] = ofColor::fromHsb( ofRandomuf() > .7 ? ofRandom(10,20) : ofRandom(150,160), 200, ofRandom(200,255));
     }
     
-    ssao.setup( ofGetWidth(), ofGetHeight(), GL_RGBA16F );
-    ssao.setRadius( 100 );
-    ssao.setMaxThreshold( .1 );
-    ssao.setMinThreshold( .01 );
+    loadShader();
+}
+
+//--------------------------------------------------------------
+void testApp::loadShader(){
+    ssao.setup( ofGetWidth(), ofGetHeight(), GL_RGBA );
 }
 
 //--------------------------------------------------------------
@@ -26,9 +30,13 @@ void testApp::draw(){
     ssao.begin();
     camera.begin();
     float step = PI * 2./float(centers.size() );
+    //tex.getTextureReference().bind();
     for(int i=0; i<centers.size(); i++){
+        ofSetColor(colors[i]);
         ofSphere(centers[i].x, centers[i].y, centers[i].z, 40 + sin( elapsedTime + float(i) * step)*20 );
     }
+    //tex.getTextureReference().unbind();
+    
     camera.end();
     ssao.end();
 
@@ -37,7 +45,12 @@ void testApp::draw(){
 
 //--------------------------------------------------------------
 void testApp::keyPressed(int key){
-
+    if(key == 'S'){
+        loadShader();
+    }
+    if(key == 'f'){
+        ofToggleFullscreen();
+    }
 }
 
 //--------------------------------------------------------------
@@ -67,7 +80,7 @@ void testApp::mouseReleased(int x, int y, int button){
 
 //--------------------------------------------------------------
 void testApp::windowResized(int w, int h){
-
+    loadShader();
 }
 
 //--------------------------------------------------------------

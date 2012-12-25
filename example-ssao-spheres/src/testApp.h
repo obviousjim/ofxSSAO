@@ -20,9 +20,10 @@ class testApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
     
+    ofImage tex;
     ofxSSAO ssao;
-    
+    void loadShader();
     vector<ofVec3f> centers;
-    
+    vector<ofColor> colors;
     ofEasyCam camera;
 };
