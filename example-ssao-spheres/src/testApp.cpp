@@ -36,7 +36,11 @@ void testApp::draw(){
             ofSphere(centers[i].x, centers[i].y, centers[i].z, 40 + sin( elapsedTime + float(i) * step)*20 );
         }
         else{
-            ofBox(centers[i].x, centers[i].y, centers[i].z, 40 + sin( elapsedTime + float(i) * step)*20 );
+            glPushMatrix();
+            glTranslatef(centers[i].x, centers[i].y, centers[i].z);
+            glRotatef((elapsedTime*10+i)*10, sin(i), 0, cos(i));
+            ofBox(0,0,0, 40 + sin( elapsedTime + float(i) * step)*20 );
+            glPopMatrix();
         }
     }
     
