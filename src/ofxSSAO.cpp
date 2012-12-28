@@ -30,7 +30,7 @@ void ofxSSAO::setup( int w, int h, int format){
     deferredBuffersSettings.width = w;
     deferredBuffersSettings.height = h;
     deferredBuffersSettings.internalformat = format;
-    deferredBuffersSettings.numColorbuffers = 2;
+    deferredBuffersSettings.numColorbuffers = 1;
     deferredBuffersSettings.useDepth = true;
     deferredBuffersSettings.useStencil = true;
     deferredBuffersSettings.depthStencilAsTexture = true;
@@ -94,6 +94,9 @@ void ofxSSAO::end( float elapsedTime ){
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
     glEnable( GL_DEPTH_TEST );
     ssaoShader.begin();
+    ssaoShader.setUniformTexture("normDepthTex", deferredPass.getTextureReference(), 0);
+//    ssaoShader.setUniformTexture("normaltex", deferredPass.getTextureReference(1), 1);
+//    ssaoShader.setUniformTexture("colortex", deferredPass.getDepthTexture(), 2);
 
     setSaaoUniforms(elapsedTime);
     
@@ -104,10 +107,6 @@ void ofxSSAO::end( float elapsedTime ){
 }
 
 void ofxSSAO::setSaaoUniforms(float elapsedTime){
-    ssaoShader.setUniformTexture("normDepthTex", deferredPass.getTextureReference(), 0);
-    //    ssaoShader.setUniformTexture("normaltex", deferredPass.getTextureReference(1), 1);
-    //    ssaoShader.setUniformTexture("colortex", deferredPass.getDepthTexture(), 2);
-    
     ssaoShader.setUniform1f("nearClip", nearClip);
     ssaoShader.setUniform1f("farClip", farClip);
     ssaoShader.setUniform1f("numSamples", numSamples);
