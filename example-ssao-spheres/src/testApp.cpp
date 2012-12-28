@@ -32,7 +32,12 @@ void testApp::draw(){
     float step = PI * 2./float(centers.size());
     for(int i=0; i<centers.size(); i++){
         ofSetColor(colors[i]);
-        ofSphere(centers[i].x, centers[i].y, centers[i].z, 40 + sin( elapsedTime + float(i) * step)*20 );
+        if(i%2){
+            ofSphere(centers[i].x, centers[i].y, centers[i].z, 40 + sin( elapsedTime + float(i) * step)*20 );
+        }
+        else{
+            ofBox(centers[i].x, centers[i].y, centers[i].z, 40 + sin( elapsedTime + float(i) * step)*20 );
+        }
     }
     
     camera.end();

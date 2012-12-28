@@ -27,7 +27,7 @@ public:
     void setSaaoUniforms(float elapsedTime);
 	void begin();
 	
-	void end( float elapsedTime = ofGetElapsedTimef(), bool drawToFbo=true );
+	void end( float elapsedTime = ofGetElapsedTimef() );
 	
 	
 	void draw(int x=0, int y=ofGetHeight(), int w=ofGetWidth(), int h = -ofGetHeight());

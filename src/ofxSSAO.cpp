@@ -14,7 +14,7 @@ ofxSSAO::ofxSSAO(){
     radius = 75;
     maxThreshold = .1;
     minThreshold = .01;
-    exponent = .8;
+    exponent = 1.;
     numSamples = 24;
     reflectRays = 1;
 }
@@ -77,7 +77,7 @@ void ofxSSAO::begin(){
     deferredShader.begin();
 }
 
-void ofxSSAO::end( float elapsedTime, bool drawToFbo){
+void ofxSSAO::end( float elapsedTime ){
     deferredShader.end();
     deferredPass.end();
     
@@ -85,7 +85,7 @@ void ofxSSAO::end( float elapsedTime, bool drawToFbo){
     glDisable( GL_DEPTH_TEST );
     
     
-    if(drawToFbo)   ssaoFbo.begin();
+    ssaoFbo.begin();
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
     glEnable( GL_DEPTH_TEST );
     ssaoShader.begin();
@@ -98,7 +98,7 @@ void ofxSSAO::end( float elapsedTime, bool drawToFbo){
     deferredPass.draw(0, 0, ssaoFbo.getWidth(), ssaoFbo.getHeight() );
     
     ssaoShader.end();
-    if(drawToFbo)   ssaoFbo.end();
+    ssaoFbo.end();
 }
 
 void ofxSSAO::setSaaoUniforms(float elapsedTime){
