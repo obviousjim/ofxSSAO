@@ -30,7 +30,7 @@ void ofxSSAO::setup( int w, int h, int format){
     deferredBuffersSettings.width = w;
     deferredBuffersSettings.height = h;
     deferredBuffersSettings.internalformat = format;
-    deferredBuffersSettings.numColorbuffers = 2;
+    deferredBuffersSettings.numColorbuffers = 1;
     deferredBuffersSettings.useDepth = true;
     deferredBuffersSettings.useStencil = true;
     deferredBuffersSettings.depthStencilAsTexture = true;
@@ -59,6 +59,7 @@ void ofxSSAO::setNumSamples( int _numSamples ){
     numSamples = min( 24, _numSamples );
 }
 void ofxSSAO::setExponent( float _exponent ){
+    //if I'm remembering correctly... pow( x, .5) gives an error
     exponent = (_exponent == .5)? _exponent : .501;
 }
 
@@ -75,6 +76,10 @@ void ofxSSAO::begin(){
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
     glEnable( GL_DEPTH_TEST );
     deferredShader.begin();
+    
+    deferredShader.setUniform1f("nearClip", nearClip);
+    deferredShader.setUniform1f("farClip", farClip);
+    
 }
 
 void ofxSSAO::end( float elapsedTime ){
@@ -89,9 +94,9 @@ void ofxSSAO::end( float elapsedTime ){
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
     glEnable( GL_DEPTH_TEST );
     ssaoShader.begin();
-    ssaoShader.setUniformTexture("colortex", deferredPass.getTextureReference(0), 0);
-    ssaoShader.setUniformTexture("normaltex", deferredPass.getTextureReference(1), 1);
-    ssaoShader.setUniformTexture("depthtex", deferredPass.getDepthTexture(), 2);
+    ssaoShader.setUniformTexture("normDepthTex", deferredPass.getTextureReference(), 0);
+//    ssaoShader.setUniformTexture("normaltex", deferredPass.getTextureReference(1), 1);
+//    ssaoShader.setUniformTexture("colortex", deferredPass.getDepthTexture(), 2);
 
     setSaaoUniforms(elapsedTime);
     
