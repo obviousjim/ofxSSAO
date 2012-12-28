@@ -1,11 +1,8 @@
 /*
  *  ofxSSAO.h
- *  blt_motionStudy
- *
  *  Created by lars berg on 2/10/12.
- *  Copyright 2012 lablab. All rights reserved.
- *
  */
+
 
 #pragma once
 
@@ -22,37 +19,34 @@ public:
     void setRadius(float _radius);
     void setMaxThreshold(float _maxThreshold);
     void setMinThreshold(float _minThreshold);
+    void setExponent(float _exponent);
+    void setNumSamples(int _numSamples);
 	
 	void setClipPlanes( float near, float far );
 	
+    void setSaaoUniforms(float elapsedTime);
 	void begin();
 	
-	void end( bool drawToFbo=true, float elapsedTime = ofGetElapsedTimef() );
+	void end( float elapsedTime = ofGetElapsedTimef(), bool drawToFbo=true );
 	
 	
 	void draw(int x=0, int y=ofGetHeight(), int w=ofGetWidth(), int h = -ofGetHeight());
 	
-	void makeDaoShader();
+	void makeSsaoShader();
 	
 	void makeDeferredShader();
-	
-	void gauss1D( vector <float>& k, int numSamples );
-    
-	void makeOffsets( vector <float>& s, int numSamples );
     
   private:
-	ofShader daoShader, deferredShader, depthBlurShader;
+	ofShader ssaoShader, deferredShader;
+    
 	int width, height;
-	float nearClip, farClip;
+	float nearClip, farClip, numSamples, exponent;
 	ofFbo deferredPass;
 	
-	ofFbo fbo1, fbo2;
-	ofFbo* fboOne;
-
-	vector <float> depthBlurSamples;
-	vector <float> depthBlurWeights;
+	ofFbo ssaoFbo, colorFbo;
 	
     //private:
 	float weight, radius, maxThreshold, minThreshold;
+    int reflectRays;
 	
 };

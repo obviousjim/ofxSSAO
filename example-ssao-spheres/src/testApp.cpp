@@ -14,7 +14,7 @@ void testApp::setup(){
 
 //--------------------------------------------------------------
 void testApp::loadShader(){
-    ssao.setup( ofGetWidth(), ofGetHeight(), GL_RGBA );
+    ssao.setup( ofGetWidth(), ofGetHeight(), GL_RGBA16F );
 }
 
 //--------------------------------------------------------------
@@ -29,13 +29,11 @@ void testApp::draw(){
     
     ssao.begin();
     camera.begin();
-    float step = PI * 2./float(centers.size() );
-    //tex.getTextureReference().bind();
+    float step = PI * 2./float(centers.size());
     for(int i=0; i<centers.size(); i++){
         ofSetColor(colors[i]);
         ofSphere(centers[i].x, centers[i].y, centers[i].z, 40 + sin( elapsedTime + float(i) * step)*20 );
     }
-    //tex.getTextureReference().unbind();
     
     camera.end();
     ssao.end();
