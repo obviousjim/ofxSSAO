@@ -41,6 +41,8 @@ void ofxSSAO::setup( int w, int h, int format){
     
     ssaoFbo.allocate(w, h, GL_RGB, 0);
     makeSsaoShader();
+	
+	composite.load("shaders/ssao_composite");
 }
 
 void ofxSSAO::setWeight(float _weight){
@@ -67,41 +69,78 @@ void ofxSSAO::setClipPlanes( float near, float far ){
     farClip = far;
 }
 
+void ofxSSAO::setRayReflection( bool bUseRayReflection ){
+    reflectRays = ( bUseRayReflection == true );
+}
+
 void ofxSSAO::begin(){
     
     deferredPass.begin();
     deferredPass.activateAllDrawBuffers();
+    //TODO:: store previous DEPTH_TEST state
     glClearColor(1,1,1,0);
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
     glEnable( GL_DEPTH_TEST );
     deferredShader.begin();
 }
 
+void ofxSSAO::begin( ofTexture& rgbdPass){
+}
+
 void ofxSSAO::end( float elapsedTime ){
     deferredShader.end();
     deferredPass.end();
     
+//    ssaoFromDepthTexture( deferredPass.getDepthTexture(), elapsedTime );
+    ssaoFromDepthAndNormaTextures( deferredPass.getDepthTexture(), deferredPass.getTextureReference(1), elapsedTime );
+
+    
+    //TODO:: re-store previous DEPTH_TEST state
+}
+
+void ofxSSAO::ssaoFromDepthTexture( ofTexture& depthTex, float elapsedTime ){
+    setRayReflection( false );
+    
+    
     glColor3f(1, 1, 1);
-    glDisable( GL_DEPTH_TEST );
-    
-    
     ssaoFbo.begin();
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
     glEnable( GL_DEPTH_TEST );
     ssaoShader.begin();
-    ssaoShader.setUniformTexture("colortex", deferredPass.getTextureReference(0), 0);
-    ssaoShader.setUniformTexture("normaltex", deferredPass.getTextureReference(1), 1);
-    ssaoShader.setUniformTexture("depthtex", deferredPass.getDepthTexture(), 2);
-
-    setSaaoUniforms(elapsedTime);
+    
+    ssaoShader.setUniformTexture("depthtex", depthTex, 1);
+    setSsaoUniforms( elapsedTime );
     
     deferredPass.draw(0, 0, ssaoFbo.getWidth(), ssaoFbo.getHeight() );
     
     ssaoShader.end();
     ssaoFbo.end();
+    
 }
 
-void ofxSSAO::setSaaoUniforms(float elapsedTime){
+
+void ofxSSAO::ssaoFromDepthAndNormaTextures( ofTexture& depthTex, ofTexture& normTex, float elapsedTime ){
+    setRayReflection( true );
+    
+    glColor3f(1, 1, 1);
+    ssaoFbo.begin();
+    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+    glEnable( GL_DEPTH_TEST );
+    ssaoShader.begin();
+    
+    ssaoShader.setUniformTexture("normaltex", normTex, 0);
+    ssaoShader.setUniformTexture("depthtex", depthTex, 1);
+    
+    setSsaoUniforms( elapsedTime );
+    
+    deferredPass.draw(0, 0, ssaoFbo.getWidth(), ssaoFbo.getHeight() );
+    
+    ssaoShader.end();
+    ssaoFbo.end();
+    
+}
+
+void ofxSSAO::setSsaoUniforms( float elapsedTime ){
     ssaoShader.setUniform1f("nearClip", nearClip);
     ssaoShader.setUniform1f("farClip", farClip);
     ssaoShader.setUniform1f("numSamples", numSamples);
@@ -113,10 +152,18 @@ void ofxSSAO::setSaaoUniforms(float elapsedTime){
     ssaoShader.setUniform2f("randSeed", elapsedTime, elapsedTime);
 }
 
-
 void ofxSSAO::draw(int x, int y, int w, int h){
     glColor4f(1,1,1,1);
-    ssaoFbo.draw( x, y+h, w, -h);
+//    ssaoFbo.draw( x, y+h, w, -h);
+	
+	composite.begin();
+	composite.setUniformTexture("ssaoTex", ssaoFbo.getTextureReference(), 0 );
+	composite.setUniformTexture("colorTex", deferredPass.getTextureReference(0), 1);
+	
+	ssaoFbo.draw( x, y+h, w, -h);
+	
+	composite.end();
+	
 }
 
 void ofxSSAO::makeSsaoShader(){

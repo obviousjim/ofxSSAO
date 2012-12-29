@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		50CD7337168E6A50005F0FC3 /* ssao_composite.frag in Sources */ = {isa = PBXBuildFile; fileRef = 50CD7335168E6A50005F0FC3 /* ssao_composite.frag */; };
+		50CD7338168E6A50005F0FC3 /* ssao_composite.vert in Sources */ = {isa = PBXBuildFile; fileRef = 50CD7336168E6A50005F0FC3 /* ssao_composite.vert */; };
 		BBAB23CB13894F3D00AA2426 /* GLUT.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBAB23BE13894E4700AA2426 /* GLUT.framework */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
 		E45BE97B0E8CC7DD009D7055 /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9710E8CC7DD009D7055 /* AGL.framework */; };
@@ -65,6 +67,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		50CD7335168E6A50005F0FC3 /* ssao_composite.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ssao_composite.frag; sourceTree = "<group>"; };
+		50CD7336168E6A50005F0FC3 /* ssao_composite.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ssao_composite.vert; sourceTree = "<group>"; };
 		BBAB23BE13894E4700AA2426 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../libs/glut/lib/osx/GLUT.framework; sourceTree = "<group>"; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E45BE9710E8CC7DD009D7055 /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
@@ -229,6 +233,8 @@
 				E7B9E3D21688F12A00AEAC02 /* ssao_deferred.frag */,
 				E7B9E3D51688F12A00AEAC02 /* ssao_render.vert */,
 				E7B9E3D41688F12A00AEAC02 /* ssao_render.frag */,
+				50CD7335168E6A50005F0FC3 /* ssao_composite.frag */,
+				50CD7336168E6A50005F0FC3 /* ssao_composite.vert */,
 			);
 			path = shaders;
 			sourceTree = "<group>";
@@ -342,6 +348,8 @@
 				E7B9E3D81688F12A00AEAC02 /* ssao_render.frag in Sources */,
 				E7B9E3D91688F12A00AEAC02 /* ssao_render.vert in Sources */,
 				E7B9E3EC168A354300AEAC02 /* ofxSSAO.cpp in Sources */,
+				50CD7337168E6A50005F0FC3 /* ssao_composite.frag in Sources */,
+				50CD7338168E6A50005F0FC3 /* ssao_composite.vert in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

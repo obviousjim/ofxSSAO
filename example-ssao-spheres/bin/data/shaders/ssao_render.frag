@@ -1,6 +1,5 @@
-uniform sampler2DRect colortex;
-uniform sampler2DRect normaltex;
 uniform sampler2DRect depthtex;
+uniform sampler2DRect normaltex;
 
 uniform int reflectRays;
 uniform float minThreshold;
@@ -12,7 +11,7 @@ uniform float nearClip;
 uniform float farClip;
 uniform float exponent;
 
-uniform vec3 samples[23];
+uniform vec3 samples[24];
 
 float linearizeDepth( in float d ) {
     return (2.0 * nearClip) / (farClip + nearClip - d * (farClip - nearClip));
@@ -24,28 +23,33 @@ float rand(vec2 n){
 
 void main(void)
 {
-    vec4 basecolor = texture2DRect( colortex, gl_TexCoord[0].st );
 
     float depth = linearizeDepth( texture2DRect( depthtex, gl_TexCoord[0].st ).r );
     if( depth == 1. ){
         gl_FragColor = vec4(1.);//basecolor;
         return;
     }
-    vec3 norm = texture2DRect( normaltex, gl_TexCoord[0].st ).xyz;
-    float ao = 0.;
-    float delta;
-    float rad = radius * (1.-depth);
-    float rnd = 0.;
-    vec3 ray;
     bool refRay = (reflectRays == 1);
+    
+    vec3 norm = (refRay)? texture2DRect( normaltex, gl_TexCoord[0].st ).xyz : vec3(0,0,1);
+
+    float ao = 0.;
+    float delta, rnd;
+    float dpthScl = pow(1.-depth, 2.);
+    float rad = radius * dpthScl;
+    float mn = minThreshold * dpthScl;
+    float mx = maxThreshold * dpthScl;
+    vec3 ray;
 
     for(int i=0; i<int(numSamples); i++){
         rnd = rand( gl_FragCoord.xy+randSeed+vec2(i*i));
         ray = (refRay)? reflect( -samples[i], norm) * rad * rnd : samples[i] * rad * rnd;
-        delta = ( depth - minThreshold - linearizeDepth( texture2DRect( depthtex, gl_TexCoord[0].st + ray.xy).r ));
-        ao += min( 1., ( delta > 0. ) ? delta/max(delta, maxThreshold) : (maxThreshold - delta)/maxThreshold );
+        delta = ( depth - mn - linearizeDepth( texture2DRect( depthtex, gl_TexCoord[0].st + ray.xy).r ));
+        ao += min( 1., ( delta > 0. ) ? delta/max(delta,mx) : (mx-delta)/mx );
     }
     
     ao = pow( ao/numSamples, exponent);
-    gl_FragColor = vec4( vec3(ao), 1. ) * basecolor;
+    
+//    vec4 basecolor = texture2DRect( colortex, gl_TexCoord[0].st );
+    gl_FragColor = vec4( vec3(ao), 1. );// * basecolor;
 }
