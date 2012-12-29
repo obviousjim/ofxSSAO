@@ -84,8 +84,6 @@ void ofxSSAO::begin(){
     deferredShader.begin();
 }
 
-void ofxSSAO::begin( ofTexture& rgbdPass){
-}
 
 void ofxSSAO::end( float elapsedTime ){
     deferredShader.end();
@@ -101,7 +99,6 @@ void ofxSSAO::end( float elapsedTime ){
 void ofxSSAO::ssaoFromDepthTexture( ofTexture& depthTex, float elapsedTime ){
     setRayReflection( false );
     
-    
     glColor3f(1, 1, 1);
     ssaoFbo.begin();
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
@@ -111,7 +108,7 @@ void ofxSSAO::ssaoFromDepthTexture( ofTexture& depthTex, float elapsedTime ){
     ssaoShader.setUniformTexture("depthtex", depthTex, 1);
     setSsaoUniforms( elapsedTime );
     
-    deferredPass.draw(0, 0, ssaoFbo.getWidth(), ssaoFbo.getHeight() );
+    deferredPass.draw(0, 0, ssaoFbo.getWidth(), ssaoFbo.getHeight());
     
     ssaoShader.end();
     ssaoFbo.end();
@@ -133,6 +130,7 @@ void ofxSSAO::ssaoFromDepthAndNormaTextures( ofTexture& depthTex, ofTexture& nor
     
     setSsaoUniforms( elapsedTime );
     
+	//TODO:: use a rect without texture associated with it
     deferredPass.draw(0, 0, ssaoFbo.getWidth(), ssaoFbo.getHeight() );
     
     ssaoShader.end();
