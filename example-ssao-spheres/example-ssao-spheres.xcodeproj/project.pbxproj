@@ -93,7 +93,7 @@
 		E761F4D71622CA3D00029E43 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = /System/Library/Frameworks/Accelerate.framework; sourceTree = "<absolute>"; };
 		E7B9E3D21688F12A00AEAC02 /* ssao_deferred.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ssao_deferred.frag; sourceTree = "<group>"; };
 		E7B9E3D31688F12A00AEAC02 /* ssao_deferred.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ssao_deferred.vert; sourceTree = "<group>"; };
-		E7B9E3D41688F12A00AEAC02 /* ssao_render.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ssao_render.frag; sourceTree = "<group>"; };
+		E7B9E3D41688F12A00AEAC02 /* ssao_render.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ssao_render.frag; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.glsl; };
 		E7B9E3D51688F12A00AEAC02 /* ssao_render.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ssao_render.vert; sourceTree = "<group>"; };
 		E7B9E3EA168A354300AEAC02 /* ofxSSAO.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxSSAO.cpp; sourceTree = "<group>"; };
 		E7B9E3EB168A354300AEAC02 /* ofxSSAO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxSSAO.h; sourceTree = "<group>"; };

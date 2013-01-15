@@ -61,7 +61,7 @@ void ofxSSAO::setNumSamples( int _numSamples ){
     numSamples = min( 24, _numSamples );
 }
 void ofxSSAO::setExponent( float _exponent ){
-    exponent = (_exponent == .5)? _exponent : .501;
+    exponent = (_exponent != .5)? _exponent : .501;
 }
 
 void ofxSSAO::setClipPlanes( float near, float far ){
@@ -125,6 +125,7 @@ void ofxSSAO::ssaoFromDepthAndNormaTextures( ofTexture& depthTex, ofTexture& nor
     glEnable( GL_DEPTH_TEST );
     ssaoShader.begin();
     
+	//we could pass these as one texture using RGBA...
     ssaoShader.setUniformTexture("normaltex", normTex, 0);
     ssaoShader.setUniformTexture("depthtex", depthTex, 1);
     

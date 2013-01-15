@@ -42,7 +42,7 @@ void main(void)
     vec3 ray;
 
     for(int i=0; i<int(numSamples); i++){
-        rnd = rand( gl_FragCoord.xy+randSeed+vec2(i*i));
+        rnd = rand( gl_FragCoord.xy+randSeed+rnd);
         ray = (refRay)? reflect( norm, -samples[i]) * rad * rnd : samples[i] * rad * rnd;
         delta = ( depth - mn - linearizeDepth( texture2DRect( depthtex, gl_TexCoord[0].st + ray.xy).r ));
         ao += min( 1., ( delta > 0. ) ? delta/max(delta,mx) : (mx-delta)/mx );

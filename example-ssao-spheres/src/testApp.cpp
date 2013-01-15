@@ -17,6 +17,7 @@ void testApp::loadShader(){
     ssao.setup( ofGetWidth(), ofGetHeight(), GL_RGBA16F );
 	ssao.setRayReflection( true );
 	ssao.setRadius( 100 );
+	ssao.setExponent( 1.1 );
 }
 
 //--------------------------------------------------------------
@@ -31,6 +32,7 @@ void testApp::draw(){
     
     ssao.begin();
     camera.begin();
+	
     float step = PI * 2./float(centers.size());
     for(int i=0; i<centers.size(); i++){
         ofSetColor(colors[i]);
