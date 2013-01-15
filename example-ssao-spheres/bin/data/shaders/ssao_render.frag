@@ -26,10 +26,10 @@ void main(void)
 
     float depth = linearizeDepth( texture2DRect( depthtex, gl_TexCoord[0].st ).r );
     if( depth == 1. ){
-        gl_FragColor = vec4(1.);//basecolor;
+        gl_FragColor = vec4(1.);
         return;
     }
-    bool refRay = (reflectRays == 1);
+    bool refRay = reflectRays == 1;
     
     vec3 norm = (refRay)? texture2DRect( normaltex, gl_TexCoord[0].st ).xyz : vec3(0,0,1);
 
@@ -43,13 +43,12 @@ void main(void)
 
     for(int i=0; i<int(numSamples); i++){
         rnd = rand( gl_FragCoord.xy+randSeed+vec2(i*i));
-        ray = (refRay)? reflect( -samples[i], norm) * rad * rnd : samples[i] * rad * rnd;
+        ray = (refRay)? reflect( norm, -samples[i]) * rad * rnd : samples[i] * rad * rnd;
         delta = ( depth - mn - linearizeDepth( texture2DRect( depthtex, gl_TexCoord[0].st + ray.xy).r ));
         ao += min( 1., ( delta > 0. ) ? delta/max(delta,mx) : (mx-delta)/mx );
     }
     
     ao = pow( ao/numSamples, exponent);
     
-//    vec4 basecolor = texture2DRect( colortex, gl_TexCoord[0].st );
-    gl_FragColor = vec4( vec3(ao), 1. );// * basecolor;
+    gl_FragColor = vec4( vec3(ao), 1. );
 }

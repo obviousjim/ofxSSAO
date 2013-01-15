@@ -14,7 +14,7 @@ public:
 	ofxSSAO();
 	~ofxSSAO();
 	
-	void setup( int w = (int)ofGetWidth(), int h = (int)ofGetHeight(), int format = GL_RGBA32F );
+	void setup( int w = (int)ofGetWidth(), int h = (int)ofGetHeight(), int format = GL_RGBA16F );
     void setWeight(float _weight);
     void setRadius(float _radius);
     void setMaxThreshold(float _maxThreshold);

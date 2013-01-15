@@ -15,6 +15,8 @@ void testApp::setup(){
 //--------------------------------------------------------------
 void testApp::loadShader(){
     ssao.setup( ofGetWidth(), ofGetHeight(), GL_RGBA16F );
+	ssao.setRayReflection( true );
+	ssao.setRadius( 100 );
 }
 
 //--------------------------------------------------------------
