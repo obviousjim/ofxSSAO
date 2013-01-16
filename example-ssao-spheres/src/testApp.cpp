@@ -6,7 +6,7 @@ void testApp::setup(){
     colors.resize( 100 );
     for (int i=0; i<centers.size(); i++) {
         centers[i].set( ofRandom(-150, 150), ofRandom(-150, 150), ofRandom(-150, 150) );
-        colors[i] = ofColor::fromHsb( ofRandomuf() > .7 ? ofRandom(10,20) : ofRandom(150,160), 200, ofRandom(200,255));
+		colors[i].set( ofRandom(55,255),  ofRandom(55,255),  ofRandom(55,255));
     }
     
     loadShader();
@@ -16,8 +16,10 @@ void testApp::setup(){
 void testApp::loadShader(){
     ssao.setup( ofGetWidth(), ofGetHeight(), GL_RGBA16F );
 	ssao.setRayReflection( true );
-	ssao.setRadius( 100 );
-	ssao.setExponent( 1.1 );
+	ssao.setRadius(100);
+	ssao.setExponent(1);
+	ssao.setMinThreshold(.02);
+	ssao.setMaxThreshold(.1);
 }
 
 //--------------------------------------------------------------
