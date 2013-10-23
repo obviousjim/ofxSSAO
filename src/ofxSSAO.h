@@ -1,58 +1,59 @@
-/*
- *  ofxSSAO.h
- *  Created by lars berg on 2/10/12.
- */
-
-
-#pragma once
+//
+//  ofxSSAO.h
+//  ofxSSAO
+//
+//  Created by lars on 10/22/13.
+//
+//
 
 #include "ofMain.h"
 
+
 class ofxSSAO{
 public:
-	
 	ofxSSAO();
 	~ofxSSAO();
 	
-	void setup( int w = (int)ofGetWidth(), int h = (int)ofGetHeight(), int format = GL_RGBA16F );
+	void setup(int w=ofGetWidth(), int h=ofGetHeight(), int format = GL_RGBA16F );
+	
+	void draw(int x=0, int y=0, int w=ofGetWidth(), int h=ofGetHeight());
+	
+	void begin( float nearClip, float farClip);
+	
+	void end();
+	
+	void loadShaders();
+	
+	void setColorTexture( ofTexture* _colorTexture );
+	ofTexture& getSSAOTexture();
+	ofTexture& getColorTexture();
+	
     void setWeight(float _weight);
     void setRadius(float _radius);
     void setMaxThreshold(float _maxThreshold);
     void setMinThreshold(float _minThreshold);
     void setExponent(float _exponent);
     void setNumSamples(int _numSamples);
-    
-    void setSsaoUniforms( float elapsedTime = ofGetElapsedTimef() );
-	
-	void setClipPlanes( float near, float far );
     void setRayReflection( bool bUseRayReflection );
 	
-    
-	void begin();
+	float& getWeight();
+	float& getRadius();
+    float& getMaxThreshold();
+    float& getMinThreshold();
+    float& getExponent();
+    float& getNumSamples();
+    bool& getRayReflection();
 	
-	void end( float elapsedTime = ofGetElapsedTimef() );
 	
-    void ssaoFromDepthTexture( ofTexture& depthTex, float elapsedTime=ofGetElapsedTimef() );
-    void ssaoFromDepthAndNormaTextures( ofTexture& depthTex, ofTexture& normTex, float elapsedTime=ofGetElapsedTimef() );
+	ofFbo depthNormalPass, ssaoFbo;
+	ofShader depthNormalShader, ssaoShader;
 	
-	void draw(int x=0, int y=ofGetHeight(), int w=ofGetWidth(), int h=-ofGetHeight());
+	float radius, maxThreshold , minThreshold , exponent, numSamples, weight;
+	bool reflectRays;
 	
-	void makeSsaoShader();
+	bool bIsSetup;
 	
-	void makeDeferredShader();
-    
-  private:
-	ofShader ssaoShader, deferredShader, composite;
-    
-	int width, height;
-	float nearClip, farClip, numSamples, exponent;
-	ofFbo deferredPass;
+	ofTexture* colorTexture;
 	
-	ofFbo ssaoFbo, colorFbo;
-    ofTexture* colorPass;
-	
-    //private:
-	float weight, radius, maxThreshold, minThreshold;
-    int reflectRays;
-	
+	vector <ofVec3f> sampleVectors;
 };

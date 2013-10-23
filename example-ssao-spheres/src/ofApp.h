@@ -3,14 +3,14 @@
 #include "ofMain.h"
 #include "ofxSSAO.h"
 
-class testApp : public ofBaseApp{
+class ofApp : public ofBaseApp{
 
 	public:
 		void setup();
 		void update();
 		void draw();
 
-		void keyPressed  (int key);
+		void keyPressed(int key);
 		void keyReleased(int key);
 		void mouseMoved(int x, int y );
 		void mouseDragged(int x, int y, int button);
@@ -19,11 +19,13 @@ class testApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
-    
-    ofImage tex;
-    ofxSSAO ssao;
-    void loadShader();
-    vector<ofVec3f> centers;
-    vector<ofColor> colors;
-    ofEasyCam camera;
+	
+	void loadShaders();
+	
+	ofEasyCam camera;
+	
+	vector <ofVec3f> randomPositions;
+	vector <ofFloatColor> randomColors;
+	
+	ofxSSAO ssao;
 };
