@@ -10,13 +10,14 @@
 
 ofxSSAO::ofxSSAO()
 {
-	radius = 75;
+	radius = 50;
 	maxThreshold = .1;
 	minThreshold = .01;
-	exponent = 1.;
+	exponent = .6;
 	numSamples = 24;
-	reflectRays = 0;
+	reflectRays = true;
 	weight = .9;
+	
 	bIsSetup = false;
 	
 	colorTexture = NULL;

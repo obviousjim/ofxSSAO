@@ -47,16 +47,16 @@ void ofApp::draw()
 	for (int i=0; i<randomPositions.size(); i++) {
 		ofSetColor(randomColors[i]);
 		
-        if(i%2){
+//        if(i%2){
 			ofDrawSphere(randomPositions[i].x, randomPositions[i].y, randomPositions[i].z, 40 + sin( elapsedTime + float(i) * step)*20 );
-        }
-        else{
-			glPushMatrix();
-			glTranslatef( randomPositions[i].x, randomPositions[i].y, randomPositions[i].z );
-			glRotatef( (elapsedTime*10 +i)*10, sin(i), 0, cos(i) );
-			ofDrawBox(0,0,0, 40 + sin( elapsedTime + float(i) * step)*20 );
-			glPopMatrix();
-        }
+//        }
+//        else{
+//			glPushMatrix();
+//			glTranslatef( randomPositions[i].x, randomPositions[i].y, randomPositions[i].z );
+//			glRotatef( (elapsedTime*10 +i)*10, sin(i), 0, cos(i) );
+//			ofDrawBox(0,0,0, 40 + sin( elapsedTime + float(i) * step)*20 );
+//			glPopMatrix();
+//        }
 	}
 	
 	camera.end();
